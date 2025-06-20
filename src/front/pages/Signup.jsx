@@ -1,7 +1,7 @@
 import useGlobalReducer from "../hooks/useGlobalReducer";
-import { useState, useEffect } from 'react',
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { signOut, signout } from "../fetch";
+// import {  signout } from "../fetch";
 
 
 

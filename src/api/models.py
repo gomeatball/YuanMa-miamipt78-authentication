@@ -13,7 +13,8 @@ class User(db.Model):
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
 
     # relationships
-    invoice_list = relationship("Invoice", back_populates='user')
+    invoice_list: Mapped[list["Invoice"]] = relationship(
+        back_populates='user')
 
     def serialize(self):
         return {

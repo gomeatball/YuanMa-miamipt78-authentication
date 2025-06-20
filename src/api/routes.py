@@ -32,13 +32,13 @@ def generate_token():
             {
                 'message': 'sorry email or password not found'
             }
-        ), 401
+        ), 404
     elif user is not None and user.password != password:
         return jsonify(
             {
                 'message': 'sorry email or password not found'
             }
-        ), 401
+        ), 404
 
     access_token = create_access_token(identity=user.id)
     response = {

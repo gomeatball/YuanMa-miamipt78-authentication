@@ -1,7 +1,7 @@
 export const login = async (email, password, dispatch) => {
   const options = {
     method: "POST",
-    mode: "cors",
+    // mode: "cors",
     headers: {
       "Content-Type": "application/json",
     },
@@ -14,7 +14,7 @@ export const login = async (email, password, dispatch) => {
     `${import.meta.env.VITE_BACKEND_URL}/api/token`,
     options
   );
-  //handle any non-200 error codes
+  // //handle any non-200 error codes
   if (!response.ok) {
     const data = await response.json();
     console.log(data.message);
@@ -25,31 +25,32 @@ export const login = async (email, password, dispatch) => {
       },
     };
   }
+  
   //if response is 200
   const data = await response.json();
-//  
-sessionStorage.setItem("token", data.access_token);
-dispatch({
-    type: 'fetchedToken',
+  //
+  sessionStorage.setItem("token", data.access_token);
+  dispatch({
+    type: "fetchedToken",
     payload: {
-        message: data.message,
-        token: data.access_token,
-        isLoginSuccessful: true,
-        loggedIn: true,
-    }
-})
-return data;
+      message: data.message,
+      token: data.access_token,
+      isLoginSuccessful: true,
+      loggedIn: true,
+    },
+  });
+  return data;
 };
 
 export const logout = (dispatch) => {
-    sessionStorage.removeItem('token');
-    dispatch({
-        type: 'loggedout'
-    })
-}
+  sessionStorage.removeItem("token");
+  dispatch({
+    type: "loggedout",
+  });
+};
 
-export const signOut = () => {
-     const options = {
+export const signOut = async () => {
+  const options = {
     method: "POST",
     mode: "cors",
     headers: {
@@ -57,7 +58,7 @@ export const signOut = () => {
     },
     body: JSON.stringify({
       email: email,
-      password: password
+      password: password,
     }),
   };
   const response = await fetch(
@@ -65,8 +66,9 @@ export const signOut = () => {
     options
   );
   //handle any non-200 error codes
+  const data = await response.json();
   if (!response.ok) {
-    const data = await response.json();
+    // const data = await response.json();
     console.log(data.message);
     return {
       error: {
@@ -74,15 +76,17 @@ export const signOut = () => {
         statusText: response.statusText,
       },
     };
-    const data = await response.json();
+  } else {
+    // const data = await response.json();
     dispatch({
-        type: 'successfulSignup',
+      type: "successfulSignup",
+      payload: {
+        message: data.message,
         payload: {
-            message: data.message,
-            payload: {
-                message: data.message,
-                isSignUpSuccessful: true
-            }
-        }
-    })
-}
+          message: data.message,
+          isSignUpSuccessful: true,
+        },
+      },
+    });
+  }
+};
