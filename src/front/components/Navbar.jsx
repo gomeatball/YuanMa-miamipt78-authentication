@@ -1,15 +1,13 @@
 import { Link } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";
-import { login } from "../fetch";
+import { logout } from "../fetch";
+import { useEffect } from "react";
 
 
 export const Navbar = () => {
 	const { store, dispatch } = useGlobalReducer();
-	const logout = () => {
-		  sessionStorage.removeItem('token');
-		  store.message = null;
-		  store.token = null;
-		  store.isLoginSuccessful = false;
+	// const logout = () => {
+
 	// 	dispatch({
 	// 		type: "loggedOut",
 	// 		payload: {
@@ -20,7 +18,7 @@ export const Navbar = () => {
 	// 	});
 
 	// 	navigate("/login");
-	}
+	// }
 	const handleClick = () => {
 		logout(dispatch)
 	}
@@ -31,13 +29,21 @@ export const Navbar = () => {
 				<Link to="/">
 					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
 				</Link>
+				<Link to="/signup">
+					<button
+						className="btn btn-warning"
+
+
+					>Signup
+					</button>
+				</Link>
 				<div className="ml-auto">
 					{
 						(store.loggedIn) ?
 							<Link to="/login">
 								<button
-									className="btn btn-success"
-									onClick={logout}
+									className="btn btn-primary"
+									onClick={handleClick}
 
 								>Logout
 								</button>
@@ -45,7 +51,7 @@ export const Navbar = () => {
 							<Link to="/login">
 								<button
 									className="btn btn-success"
-									onClick={handleClick}
+									// onClick={handleClick}
 
 								>Login
 								</button>

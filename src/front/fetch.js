@@ -25,7 +25,7 @@ export const login = async (email, password, dispatch) => {
       },
     };
   }
-  
+
   //if response is 200
   const data = await response.json();
   //
@@ -46,10 +46,16 @@ export const logout = (dispatch) => {
   sessionStorage.removeItem("token");
   dispatch({
     type: "loggedout",
+    payload: {
+      message: null,
+      token: null,
+      isLoginSuccessful: false,
+      loggedIn: false,
+    },
   });
 };
 
-export const signOut = async () => {
+export const signOut = async (email, password, dispatch) => {
   const options = {
     method: "POST",
     mode: "cors",
@@ -77,7 +83,7 @@ export const signOut = async () => {
       },
     };
   } else {
-    // const data = await response.json();
+    const data = await response.json();
     dispatch({
       type: "successfulSignup",
       payload: {
