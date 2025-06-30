@@ -22,23 +22,32 @@ export default function storeReducer(store, action = {}) {
     }
 
     case "loggedOut": {
-      const { message, token, isLoginSuccessful, loggedIn} = action.payload;
+      const { message, token, isLoginSuccessful, loggedIn } = action.payload;
       sessionStorage.removeItem("token");
       return {
-        ...store,
+        ...initialStore(),
         message: message,
-        token: token,
-        isLoginSuccessful: isLoginSuccessful,
-        loggedIn: loggedIn,
       };
     }
 
-    case "succesdfulSignUp": {
+    case "successfulSignUp": {
       const { message, isSignUpSuccessful } = action.payload;
       return {
         ...store,
         message: message,
         isSignUpSuccessful: isSignUpSuccessful,
+      };
+    }
+
+    case "successfulSignOut": {
+      sessionStorage.removeItem("token");
+      return {
+        ...store,
+        message: action.payload.message,
+        token: null,
+        isLoginSuccessful: false,
+        loggedIn: false,
+        isSignUpSuccessful: false,
       };
     }
     default:

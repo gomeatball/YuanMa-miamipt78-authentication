@@ -45,7 +45,7 @@ export const login = async (email, password, dispatch) => {
 export const logout = (dispatch) => {
   sessionStorage.removeItem("token");
   dispatch({
-    type: "loggedout",
+    type: "loggedOut",
     payload: {
       message: null,
       token: null,
@@ -55,7 +55,7 @@ export const logout = (dispatch) => {
   });
 };
 
-export const signOut = async (email, password, dispatch) => {
+export const signUp = async (email, password, dispatch) => {
   const options = {
     method: "POST",
     mode: "cors",
@@ -80,18 +80,16 @@ export const signOut = async (email, password, dispatch) => {
       error: {
         status: response.status,
         statusText: response.statusText,
+        message: data.message,
       },
     };
   } else {
-    const data = await response.json();
+    // const data = await response.json();
     dispatch({
-      type: "successfulSignup",
+      type: "successfulSignUp",
       payload: {
         message: data.message,
-        payload: {
-          message: data.message,
-          isSignUpSuccessful: true,
-        },
+        isSignUpSuccessful: true,
       },
     });
   }
